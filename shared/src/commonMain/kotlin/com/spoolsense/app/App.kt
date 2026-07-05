@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.spoolsense.app.ui.theme.SpoolSenseTheme
 import org.jetbrains.compose.resources.painterResource
 
 import spoolsense.shared.generated.resources.Res
@@ -22,7 +23,7 @@ import spoolsense.shared.generated.resources.compose_multiplatform
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
+    SpoolSenseTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(
             modifier = Modifier
