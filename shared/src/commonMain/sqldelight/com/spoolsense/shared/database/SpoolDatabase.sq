@@ -1,0 +1,65 @@
+-- ==============================================================================
+-- 1. TABLES
+-- ==============================================================================
+
+-- Table filament
+CREATE TABLE spoolEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    vendor TEXT NOT NULL,
+    material TEXT NOT NULL,
+    totalWeightGrams INTEGER NOT NULL,
+    remainingWeightGrams INTEGER NOT NULL,
+    colorHex TEXT NOT NULL
+);
+
+-- Table printing history
+CREATE TABLE printJobEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    fileName TEXT NOT NULL,
+    spoolId TEXT NOT NULL,
+    weightUsedGrams INTEGER NOT NULL,
+    timestamp INTEGER NOT NULL,
+    status TEXT NOT NULL
+);
+
+-- ==============================================================================
+-- 2. QUERIES
+-- ==============================================================================
+
+-- --- Spool Queries ---
+
+selectAllSpools:
+SELECT *
+FROM spoolEntity;
+
+selectSpoolById:
+SELECT *
+FROM spoolEntity
+WHERE id = :id;
+
+insertSpool:
+INSERT OR REPLACE INTO spoolEntity (
+    id, name, vendor, material, totalWeightGrams, remainingWeightGrams, colorHex
+) VALUES (?, ?, ?, ?, ?, ?, ?);
+
+updateSpoolRemainingWeight:
+UPDATE spoolEntity
+SET remainingWeightGrams = :newWeight
+WHERE id = :id;
+
+deleteSpoolById:
+DELETE FROM spoolEntity
+WHERE id = :id;
+
+-- --- Print Job Queries ---
+
+selectAllPrintJobs:
+SELECT *
+FROM printJobEntity
+ORDER BY timestamp DESC;
+
+insertPrintJob:
+INSERT OR REPLACE INTO printJobEntity (
+    id, fileName, spoolId, weightUsedGrams, timestamp, status
+) VALUES (?, ?, ?, ?, ?, ?);
