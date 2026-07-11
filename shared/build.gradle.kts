@@ -6,6 +6,10 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.sqldelight)
+
+
 }
 
 kotlin {
@@ -49,7 +53,16 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
+            implementation(libs.ktor.client.android)
+            implementation(libs.sqldelight.android.driver)
+
         }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+            implementation(libs.sqldelight.native.driver)
+        }
+
         commonMain.dependencies {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
@@ -59,6 +72,14 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.sqldelight.runtime)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.koin.core)
+            implementation("app.cash.sqldelight:coroutines-extensions:2.1.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -71,4 +92,14 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
+
+}
+
+sqldelight {
+    databases {
+        create("SpoolDatabase") {
+            packageName.set("com.spoolsense.shared.database")
+            srcDirs.setFrom("src/commonMain/sqldelight")
+        }
+    }
 }
