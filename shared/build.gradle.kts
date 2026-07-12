@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -8,9 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.sqldelight)
-
-
-}
+ }
 
 kotlin {
     listOf(
@@ -24,16 +21,7 @@ kotlin {
     }
     
     jvm()
-    
-    js {
-        browser()
-    }
-    
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-    }
-    
+
     androidLibrary {
        namespace = "com.spoolsense.app.shared"
        compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -49,13 +37,15 @@ kotlin {
            isIncludeAndroidResources = true
        }
     }
-    
+
+
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.ktor.client.android)
             implementation(libs.sqldelight.android.driver)
-
+            implementation(libs.sqldelight.sqlite.driver)
         }
 
         iosMain.dependencies {
@@ -79,14 +69,35 @@ kotlin {
             implementation(libs.sqldelight.runtime)
             implementation(libs.kotlinx.datetime)
             implementation(libs.koin.core)
-            implementation("app.cash.sqldelight:coroutines-extensions:2.1.0")
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.sqldelight.coroutines.extensions)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.ktor.client.mock)
         }
+
+        androidUnitTest.dependencies {
+            implementation(libs.sqldelight.sqlite.driver)
+
+        }
+
+        jvmMain.dependencies {
+            implementation(libs.sqldelight.sqlite.driver)
+        }
+
+        jvmTest.dependencies {
+            implementation(libs.sqldelight.sqlite.driver)
+        }
+
+        iosTest.dependencies {
+            implementation(libs.sqldelight.native.driver)
+        }
+
         jsMain.dependencies {
             implementation(libs.wrappers.browser)
         }
+
     }
 }
 
