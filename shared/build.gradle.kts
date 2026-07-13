@@ -23,7 +23,7 @@ kotlin {
     jvm()
 
     androidLibrary {
-       namespace = "com.spoolsense.app.shared"
+       namespace = "com.spoolsense.shared"
        compileSdk = libs.versions.android.compileSdk.get().toInt()
        minSdk = libs.versions.android.minSdk.get().toInt()
     
@@ -37,8 +37,6 @@ kotlin {
            isIncludeAndroidResources = true
        }
     }
-
-
 
     sourceSets {
         androidMain.dependencies {
