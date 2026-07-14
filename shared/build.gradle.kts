@@ -69,6 +69,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.sqldelight.coroutines.extensions)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -82,10 +83,12 @@ kotlin {
 
         jvmMain.dependencies {
             implementation(libs.sqldelight.sqlite.driver)
+            implementation(libs.mockk)
         }
 
         jvmTest.dependencies {
             implementation(libs.sqldelight.sqlite.driver)
+            implementation(libs.mockk)
         }
 
         iosTest.dependencies {
