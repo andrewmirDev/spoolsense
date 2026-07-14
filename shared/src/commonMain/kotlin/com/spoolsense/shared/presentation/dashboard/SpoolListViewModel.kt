@@ -34,7 +34,7 @@ class SpoolListViewModel(
                 _state.update { currentState ->
                 currentState.copy(allSpools = spools,
                     totalSpoolCount = spools.size,
-                    totalFilamentKg = spools.sumOf { it.remainingWeightGrams.toDouble() }.toFloat(),
+                    totalFilamentKg = spools.sumOf { it.remainingWeightGrams.toDouble() }.toFloat() / 1000,
                     lowFilamentSpools = spools.filter { it.remainingWeightGrams > 150f },
                     isLoading = false
                 )
