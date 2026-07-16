@@ -69,7 +69,6 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.sqldelight.coroutines.extensions)
-
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
