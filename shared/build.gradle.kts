@@ -44,6 +44,9 @@ kotlin {
             implementation(libs.ktor.client.android)
             implementation(libs.sqldelight.android.driver)
             implementation(libs.sqldelight.sqlite.driver)
+            implementation(libs.koin.android)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose)
         }
 
         iosMain.dependencies {
@@ -69,6 +72,10 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.sqldelight.coroutines.extensions)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose)
+            api(libs.koin.core)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

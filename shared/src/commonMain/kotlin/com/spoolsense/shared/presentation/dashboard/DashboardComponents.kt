@@ -1,49 +1,18 @@
 package com.spoolsense.shared.presentation.dashboard
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.key.Key.Companion.R
-import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.spoolsense.app.shared.domain.model.Spool
 import com.spoolsense.shared.domain.model.PrinterState
-import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
-import spoolsense.shared.generated.resources.Res
-import spoolsense.shared.generated.resources.account_circle_24dp
-import spoolsense.shared.generated.resources.across_spools
-import spoolsense.shared.generated.resources.active_print
-import spoolsense.shared.generated.resources.app_name
-import spoolsense.shared.generated.resources.low_rem_left
-import spoolsense.shared.generated.resources.nozzle_temp
-import spoolsense.shared.generated.resources.profile
-import spoolsense.shared.generated.resources.sync_24dp
-import spoolsense.shared.generated.resources.total_fil_remaining_kg
-import kotlin.coroutines.coroutineContext
+import spoolsense.shared.generated.resources.*
 
 @Composable
 fun DashboardTopBar(isSynced: Boolean) {
@@ -52,7 +21,7 @@ fun DashboardTopBar(isSynced: Boolean) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (isSynced) {
                     Icon(
-                        imageVector = vectorResource(Res.drawable.sync_24dp),
+                        vectorResource(Res.drawable.sync_24dp),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primaryContainer,
                         modifier = Modifier.size(16.dp)
@@ -76,7 +45,7 @@ fun DashboardTopBar(isSynced: Boolean) {
         },
         actions = {
             IconButton(onClick = {}) {
-                Icon(imageVector = vectorResource(Res.drawable.account_circle_24dp), contentDescription = stringResource(Res.string.profile))
+                Icon(vectorResource(Res.drawable.account_circle_24dp), contentDescription = stringResource(Res.string.profile))
             }
         }
     )
