@@ -7,4 +7,5 @@
     <string name="active_print">Active print</string>
     <string name="nozzle_temp">Nozzle: %d °C</string>
     <string name="low_rem_left">Less than 10% (%d g) left</string>
+    <string name="add">Add filament</string>
 </resources>

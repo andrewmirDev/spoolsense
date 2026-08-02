@@ -1,6 +1,6 @@
 package com.spoolsense.app.shared.data.mapper
 
-import com.spoolsense.app.shared.domain.model.Spool
+import com.spoolsense.shared.domain.model.Spool
 import com.spoolsense.shared.database.SpoolEntity
 
 fun SpoolEntity.toDomain(): Spool {
@@ -11,7 +11,8 @@ fun SpoolEntity.toDomain(): Spool {
         material = material,
         totalWeightGrams = totalWeightGrams.toInt(),
         remainingWeightGrams = remainingWeightGrams.toInt(),
-        colorHex = colorHex
+        colorHex = colorHex,
+        colorName = colorName
     )
 }
 
@@ -23,6 +24,7 @@ fun Spool.toEntity(): SpoolEntity {
         material = material,
         totalWeightGrams = totalWeightGrams.toLong(),
         remainingWeightGrams = remainingWeightGrams.toLong(),
-        colorHex = colorHex
+        colorHex = colorHex,
+        colorName = colorName
     )
 }

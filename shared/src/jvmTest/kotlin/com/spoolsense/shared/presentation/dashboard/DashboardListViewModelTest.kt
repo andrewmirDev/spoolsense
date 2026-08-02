@@ -1,6 +1,6 @@
 package com.spoolsense.shared.presentation.dashboard
 
-import com.spoolsense.app.shared.domain.model.Spool
+import com.spoolsense.shared.domain.model.Spool
 import com.spoolsense.shared.domain.usecase.ObservePrinterStateUseCase
 import com.spoolsense.shared.domain.usecase.ObserveSpoolsUseCase
 import io.mockk.every
@@ -17,7 +17,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SpoolListViewModelTest {
+class DashboardListViewModelTest {
 
     private val observeSpoolsUseCase: ObserveSpoolsUseCase = mockk()
     private val observePrinterStateUseCase: ObservePrinterStateUseCase = mockk()
@@ -42,9 +42,9 @@ class SpoolListViewModelTest {
         every { observeSpoolsUseCase() } returns flowOf(spools)
         every { observePrinterStateUseCase() } returns flowOf(mockk(relaxed = true))
 
-        val viewModel = SpoolListViewModel(observeSpoolsUseCase, observePrinterStateUseCase)
+        val viewModel = DashboardListViewModel(observeSpoolsUseCase, observePrinterStateUseCase)
 
-        viewModel.handleIntent(SpoolListIntent.Init)
+        viewModel.handleIntent(DashboardSpoolListIntent.Init)
 
         val currentState = viewModel.state.value
         assertEquals(2, currentState.totalSpoolCount)

@@ -1,5 +1,8 @@
 -- ==============================================================================
--- 1. TABLES
+-- SpoolDatabase Schema (v2)
+-- ==============================================================================
+-- BREAKING CHANGE: v1 databases need to be cleared due to schema update
+-- Migration: Added colorName column to spoolEntity
 -- ==============================================================================
 
 -- Table filament
@@ -10,7 +13,8 @@ CREATE TABLE spoolEntity (
     material TEXT NOT NULL,
     totalWeightGrams INTEGER NOT NULL,
     remainingWeightGrams INTEGER NOT NULL,
-    colorHex TEXT NOT NULL
+    colorHex TEXT NOT NULL,
+    colorName TEXT NOT NULL DEFAULT 'Unknown'
 );
 
 -- Table printing history
@@ -24,7 +28,7 @@ CREATE TABLE printJobEntity (
 );
 
 -- ==============================================================================
--- 2. QUERIES
+-- QUERIES
 -- ==============================================================================
 
 -- --- Spool Queries ---
@@ -40,8 +44,8 @@ WHERE id = :id;
 
 insertSpool:
 INSERT OR REPLACE INTO spoolEntity (
-    id, name, vendor, material, totalWeightGrams, remainingWeightGrams, colorHex
-) VALUES (?, ?, ?, ?, ?, ?, ?);
+    id, name, vendor, material, totalWeightGrams, remainingWeightGrams, colorHex, colorName
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 
 updateSpoolRemainingWeight:
 UPDATE spoolEntity

@@ -1,7 +1,7 @@
 package com.spoolsense.shared.repository
 
-import com.spoolsense.app.shared.data.repository.SpoolRepositoryImpl
-import com.spoolsense.app.shared.domain.model.Spool
+import com.spoolsense.shared.data.repository.SpoolRepositoryImpl
+import com.spoolsense.shared.domain.model.Spool
 import com.spoolsense.shared.database.SpoolDatabase
 import com.spoolsense.shared.data.database.createTestSqlDriver
 import kotlin.test.BeforeTest

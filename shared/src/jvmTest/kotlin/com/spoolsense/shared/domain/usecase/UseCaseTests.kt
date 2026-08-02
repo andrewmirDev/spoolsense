@@ -1,7 +1,7 @@
 package com.spoolsense.shared.domain.usecase
 
-import com.spoolsense.app.shared.domain.model.Spool
-import com.spoolsense.app.shared.domain.repository.SpoolRepository
+import com.spoolsense.shared.domain.model.Spool
+import com.spoolsense.shared.domain.repository.SpoolRepository
 import com.spoolsense.shared.domain.repository.PrinterRepository
 import io.mockk.coEvery
 import io.mockk.coVerify

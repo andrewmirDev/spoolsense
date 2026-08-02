@@ -12,15 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.spoolsense.app.ui.theme.SpoolSenseTheme
 import com.spoolsense.shared.presentation.dashboard.DashboardScreen
-import com.spoolsense.shared.presentation.dashboard.SpoolListViewModel
+import com.spoolsense.shared.presentation.dashboard.DashboardListViewModel
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.compose.KoinContext
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme(colorScheme = darkColorScheme()) {
-        val viewModel = koinViewModel<SpoolListViewModel>()
+        val viewModel = koinViewModel<DashboardListViewModel>()
         DashboardScreen(viewModel)
     }
     SpoolSenseTheme {

@@ -1,7 +1,8 @@
-package com.spoolsense.app.shared.domain.repository
+package com.spoolsense.shared.domain.repository
 
-import com.spoolsense.app.shared.domain.model.Spool
+import com.spoolsense.shared.domain.model.Spool
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface SpoolRepository {
     fun observeAllSpools(): Flow<List<Spool>>

@@ -16,12 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DashboardScreen(viewModel: SpoolListViewModel){
+fun DashboardScreen(viewModel: DashboardListViewModel){
 
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit){
-        viewModel.handleIntent(SpoolListIntent.Init)
+        viewModel.handleIntent(DashboardSpoolListIntent.Init)
     }
 
     Scaffold(topBar = {DashboardTopBar(isSynced = !state.isLoading)

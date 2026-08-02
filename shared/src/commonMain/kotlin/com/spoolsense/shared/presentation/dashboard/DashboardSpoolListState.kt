@@ -1,9 +1,9 @@
 package com.spoolsense.shared.presentation.dashboard
 
-import com.spoolsense.app.shared.domain.model.Spool
+import com.spoolsense.shared.domain.model.Spool
 import com.spoolsense.shared.domain.model.PrinterState
 
-data class SpoolListState(
+data class DashboardSpoolListState(
     val isLoading: Boolean = false,
     val totalFilamentKg: Float = 0f,
     val totalSpoolCount: Int = 0,
