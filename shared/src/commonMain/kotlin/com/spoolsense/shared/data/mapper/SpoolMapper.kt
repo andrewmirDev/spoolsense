@@ -1,4 +1,4 @@
-package com.spoolsense.app.shared.data.mapper
+package com.spoolsense.shared.data.mapper
 
 import com.spoolsense.shared.domain.model.Spool
 import com.spoolsense.shared.database.SpoolEntity

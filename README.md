@@ -13,7 +13,7 @@
 ✅ **Inventory Management**: Add, view, and search filament spools  
 ✅ **Real-Time Tracking**: Monitor remaining filament as prints progress  
 ✅ **Offline-First**: All data stored locally; no internet required  
-✅ **Cross-Platform**: Android, iOS (Compose Multiplatform), Desktop, Web  
+✅ **Cross-Platform**: Android, iOS (Compose Multiplatform), Desktop  
 ✅ **Non-Blocking UI**: Network operations never freeze the UI  
 
 ## 🏗️ Architecture
@@ -45,11 +45,6 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed technical documentation.
 ./gradlew :desktopApp:run
 ```
 
-**Web (WASM - Recommended):**
-```bash
-./gradlew :webApp:wasmJsBrowserDevelopmentRun
-```
-
 **iOS:**
 Open `/iosApp` in Xcode and run from there.
 
@@ -58,7 +53,6 @@ Open `/iosApp` in Xcode and run from there.
 ```bash
 ./gradlew :shared:testAndroidHostTest    # Android tests
 ./gradlew :shared:jvmTest                # Desktop tests
-./gradlew :shared:wasmJsTest             # Web tests (WASM)
 ```
 
 ## 📂 Project Structure
@@ -98,7 +92,7 @@ spoolsense/
 5. SQLDelight triggers Flow update → Inventory screen re-renders
 6. ✅ New spool appears instantly
 
-### Tracking Print Consumption (Future Phase)
+### Tracking Print Consumption
 1. Print starts → WebSocket listener connects to Moonraker API
 2. Print finishes → API sends `weightUsedGrams: 42`
 3. `UpdateSpoolWeightUseCase(spoolId, 42)` → DB update

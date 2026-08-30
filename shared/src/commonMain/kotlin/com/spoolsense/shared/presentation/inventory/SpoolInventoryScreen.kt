@@ -107,7 +107,7 @@ fun SpoolInventoryScreen(viewModel: InventorySpoolViewModel) {
                         modifier = Modifier.fillMaxSize()
                     ) {
                         items(state.filteredSpools) { spool ->
-                            SpoolCard(spool = spool, onClick = { /* Navigate to Details */ })
+                            SpoolCard(spool = spool, onClick = {})
                         }
                     }
                 }

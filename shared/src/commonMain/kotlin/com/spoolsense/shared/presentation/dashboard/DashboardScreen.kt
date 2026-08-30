@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DashboardScreen(viewModel: DashboardListViewModel){
+fun DashboardScreen(viewModel: DashboardListViewModel, onSettingsClick: () -> Unit = {}){
 
     val state by viewModel.state.collectAsState()
 
@@ -24,7 +24,7 @@ fun DashboardScreen(viewModel: DashboardListViewModel){
         viewModel.handleIntent(DashboardSpoolListIntent.Init)
     }
 
-    Scaffold(topBar = {DashboardTopBar(isSynced = !state.isLoading)
+    Scaffold(topBar = {DashboardTopBar(isSynced = !state.isLoading, onSettingsClick = onSettingsClick)
     }) { paddingValues ->
         LazyColumn(modifier = Modifier
             .fillMaxSize()

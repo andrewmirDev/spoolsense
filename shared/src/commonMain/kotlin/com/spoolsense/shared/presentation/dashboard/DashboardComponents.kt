@@ -9,14 +9,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.spoolsense.shared.domain.model.PrinterStatus
 import com.spoolsense.shared.domain.model.Spool
 import com.spoolsense.shared.domain.model.PrinterState
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import spoolsense.shared.generated.resources.*
+import kotlin.math.roundToInt
 
 @Composable
-fun DashboardTopBar(isSynced: Boolean) {
+fun DashboardTopBar(isSynced: Boolean, onSettingsClick: () -> Unit = {}) {
     CenterAlignedTopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -45,7 +47,7 @@ fun DashboardTopBar(isSynced: Boolean) {
             )
         },
         actions = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = onSettingsClick) {
                 Icon(vectorResource(Res.drawable.account_circle_24dp), contentDescription = stringResource(Res.string.profile))
             }
         }
@@ -83,6 +85,13 @@ fun SummaryCard(totalKg: Float, spoolCount: Int){
 
 @Composable
 fun PrinterStatusCard(printer: PrinterState){
+    val statusLabel = statusLabel(printer.status)
+    val statusColor = when (printer.status) {
+        PrinterStatus.Printing -> MaterialTheme.colorScheme.primary
+        PrinterStatus.Error -> MaterialTheme.colorScheme.error
+        PrinterStatus.Disconnected -> MaterialTheme.colorScheme.outline
+        else -> MaterialTheme.colorScheme.onSurfaceVariant
+    }
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -92,21 +101,59 @@ fun PrinterStatusCard(printer: PrinterState){
     ){
         Column(modifier = Modifier.padding(16.dp)) {
             Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-                Text(text = stringResource(Res.string.active_print), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text(text = "${(printer.progress * 100).toInt()}%", color = MaterialTheme.colorScheme.primary)
+                Text(
+                    text = statusLabel,
+                    fontWeight = FontWeight.Bold,
+                    color = statusColor
+                )
+                if (printer.progress > 0f) {
+                    Text(text = "${(printer.progress * 100).roundToInt()}%", color = MaterialTheme.colorScheme.primary)
+                }
+            }
+            if (printer.progress > 0f) {
+                Spacer(modifier = Modifier.height(8.dp))
+                LinearProgressIndicator(
+                    progress = { printer.progress },
+                    modifier = Modifier.fillMaxWidth().height(8.dp),
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant
+                )
+            }
+            if (printer.printFileName.isNotBlank()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(Res.string.print_file, printer.printFileName),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            LinearProgressIndicator(
-                progress = { printer.progress },
-                modifier = Modifier.fillMaxWidth().height(8.dp),
-                color = MaterialTheme.colorScheme.primary,
-                trackColor = MaterialTheme.colorScheme.surfaceVariant
+            Text(
+                text = stringResource(Res.string.nozzle_temp, formatTemp(printer.nozzleTemperature), formatTemp(printer.nozzleTarget)),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = stringResource(Res.string.nozzle_temp), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                text = stringResource(Res.string.bed_temp, formatTemp(printer.bedTemperature), formatTemp(printer.bedTarget)),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
+
+private fun formatTemp(value: Float): String =
+    if (value == 0f) "—" else value.roundToInt().toString()
+
+@Composable
+private fun statusLabel(status: PrinterStatus): String = stringResource(
+    when (status) {
+        PrinterStatus.Printing -> Res.string.status_printing
+        PrinterStatus.Idle -> Res.string.status_idle
+        PrinterStatus.Paused -> Res.string.status_paused
+        PrinterStatus.Error -> Res.string.status_error
+        PrinterStatus.Disconnected -> Res.string.status_disconnected
+        PrinterStatus.Complete -> Res.string.status_complete
+    }
+)
 
 @Composable
 fun LowFilamentItem(spool: Spool){

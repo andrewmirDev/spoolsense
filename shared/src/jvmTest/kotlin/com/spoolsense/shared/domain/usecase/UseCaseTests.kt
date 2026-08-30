@@ -32,12 +32,38 @@ class UseCaseTests {
 
     @Test
     fun UpdateSpoolWeightUseCaseTest() = runTest {
-        coEvery { spoolRepository.updateRemainingWeight(any(), any()) }  returns Unit
+        val spool = Spool(id = "1", name = "redAbs", material = "ABS", remainingWeightGrams = 1000, totalWeightGrams = 750, vendor = "eSUN", colorHex = "RED")
+        coEvery { spoolRepository.getSpoolById("1") } returns spool
+        coEvery { spoolRepository.updateRemainingWeight(any(), any()) } returns Unit
 
         val useCase = UpdateSpoolWeightUseCase(spoolRepository)
-        useCase("1", 500)
+        val result = useCase("1", 500)
 
+        assertEquals(true, result.isSuccess)
         coVerify { spoolRepository.updateRemainingWeight("1", 500) }
+    }
+
+    @Test
+    fun UpdateSpoolWeightUseCaseRejectsNegativeTest() = runTest {
+        val spool = Spool(id = "1", name = "redAbs", material = "ABS", remainingWeightGrams = 1000, totalWeightGrams = 750, vendor = "eSUN", colorHex = "RED")
+        coEvery { spoolRepository.getSpoolById("1") } returns spool
+
+        val useCase = UpdateSpoolWeightUseCase(spoolRepository)
+        val result = useCase("1", -5)
+
+        assertEquals(true, result.isFailure)
+        coVerify(exactly = 0) { spoolRepository.updateRemainingWeight(any(), any()) }
+    }
+
+    @Test
+    fun UpdateSpoolWeightUseCaseRejectsOverTotalTest() = runTest {
+        val spool = Spool(id = "1", name = "redAbs", material = "ABS", remainingWeightGrams = 1000, totalWeightGrams = 750, vendor = "eSUN", colorHex = "RED")
+        coEvery { spoolRepository.getSpoolById("1") } returns spool
+
+        val useCase = UpdateSpoolWeightUseCase(spoolRepository)
+        val result = useCase("1", 999)
+
+        assertEquals(true, result.isFailure)
     }
 
     @Test

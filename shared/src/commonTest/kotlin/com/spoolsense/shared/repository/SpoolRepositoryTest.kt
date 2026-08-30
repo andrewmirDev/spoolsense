@@ -7,7 +7,7 @@ import com.spoolsense.shared.data.database.createTestSqlDriver
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.first
+import kotlin.test.assertNotNull
 import kotlinx.coroutines.test.runTest
 
 
@@ -17,7 +17,6 @@ class SpoolRepositoryTest {
 
     @BeforeTest
     fun setup() {
-        // Используем нашу фабрику для создания драйвера
         val driver = createTestSqlDriver()
         database = SpoolDatabase(driver)
         repository = SpoolRepositoryImpl(database)
@@ -35,14 +34,12 @@ class SpoolRepositoryTest {
             colorHex = "#FF0000"
         )
 
-        // 1. Сохраняем в базу
         repository.insertSpool(testSpool)
 
-        // 2. Получаем список через Flow и берем первый снимок (emission)
-        val spools = repository.observeAllSpools().first()
+        val spool = repository.getSpoolById("1")
 
-        // 3. Проверяем корректность (обращаемся к первому элементу списка)
-        assertEquals(1, spools.size)
-        assertEquals("eSUN", spools.first().vendor)
+        assertNotNull(spool)
+        assertEquals("eSUN", spool.vendor)
+        assertEquals(750, spool.remainingWeightGrams)
     }
 }

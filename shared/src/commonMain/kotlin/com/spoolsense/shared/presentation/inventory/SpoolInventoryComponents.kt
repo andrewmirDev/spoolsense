@@ -33,7 +33,6 @@ fun SpoolCard(spool: Spool, onClick: () -> Unit) {
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-            // Color Circle & Material Label
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(modifier = Modifier.size(24.dp).background(Color(spool.colorHex.toLong(16)), CircleShape))
                 Spacer(Modifier.width(8.dp))
@@ -46,7 +45,6 @@ fun SpoolCard(spool: Spool, onClick: () -> Unit) {
 
             Spacer(Modifier.weight(1f))
 
-            // Progress Bar
             val progress = spool.remainingWeightGrams.toFloat() / spool.totalWeightGrams.toFloat()
             LinearProgressIndicator(
                 progress = { progress },

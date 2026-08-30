@@ -9,4 +9,13 @@ interface SpoolRepository {
     suspend fun getSpoolById(id: String): Spool?
     suspend fun insertSpool(spool: Spool)
     suspend fun updateRemainingWeight(id: String, newWeightGrams: Int)
+    suspend fun printJobExists(id: String): Boolean
+    suspend fun insertPrintJob(
+        id: String,
+        fileName: String,
+        spoolId: String,
+        weightUsedGrams: Int,
+        timestamp: Long,
+        status: String
+    )
 }

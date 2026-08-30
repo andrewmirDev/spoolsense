@@ -10,5 +10,7 @@ data class DashboardSpoolListState(
     val activePrinterState: PrinterState? = null,
     val lowFilamentSpools: List<Spool> = emptyList(),
     val allSpools: List<Spool> = emptyList(),
+    val activeSpoolId: String? = null,
+    val printDeducted: Boolean = false,
     val errorMessage: String? = null
 )

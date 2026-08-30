@@ -1,8 +1,14 @@
 package com.spoolsense.shared.presentation.dashboard
 
+import com.spoolsense.shared.domain.model.PrinterState
+import com.spoolsense.shared.domain.model.PrinterStatus
 import com.spoolsense.shared.domain.model.Spool
+import com.spoolsense.shared.domain.usecase.ObserveActiveSpoolUseCase
 import com.spoolsense.shared.domain.usecase.ObservePrinterStateUseCase
 import com.spoolsense.shared.domain.usecase.ObserveSpoolsUseCase
+import com.spoolsense.shared.domain.usecase.OnPrintCompletedUseCase
+import com.spoolsense.shared.domain.usecase.SetActiveSpoolUseCase
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +27,9 @@ class DashboardListViewModelTest {
 
     private val observeSpoolsUseCase: ObserveSpoolsUseCase = mockk()
     private val observePrinterStateUseCase: ObservePrinterStateUseCase = mockk()
+    private val observeActiveSpoolUseCase: ObserveActiveSpoolUseCase = mockk()
+    private val setActiveSpoolUseCase: SetActiveSpoolUseCase = mockk()
+    private val onPrintCompletedUseCase: OnPrintCompletedUseCase = mockk()
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @BeforeTest
@@ -40,9 +49,15 @@ class DashboardListViewModelTest {
             Spool(id = "2", name = "pinkAbs", material = "ABS", remainingWeightGrams = 800, totalWeightGrams = 650, vendor = "eSUN", colorHex = "PINK")
         )
         every { observeSpoolsUseCase() } returns flowOf(spools)
-        every { observePrinterStateUseCase() } returns flowOf(mockk(relaxed = true))
+        every { observePrinterStateUseCase() } returns flowOf(PrinterState(status = PrinterStatus.Idle))
+        every { observeActiveSpoolUseCase() } returns flowOf(null)
+        coEvery { setActiveSpoolUseCase(any()) } returns Unit
+        coEvery { onPrintCompletedUseCase(any(), any(), any(), any()) } returns Result.success(Unit)
 
-        val viewModel = DashboardListViewModel(observeSpoolsUseCase, observePrinterStateUseCase)
+        val viewModel = DashboardListViewModel(
+            observeSpoolsUseCase, observePrinterStateUseCase,
+            observeActiveSpoolUseCase, setActiveSpoolUseCase, onPrintCompletedUseCase
+        )
 
         viewModel.handleIntent(DashboardSpoolListIntent.Init)
 
@@ -51,5 +66,4 @@ class DashboardListViewModelTest {
         assertEquals(1.8f, currentState.totalFilamentKg)
         assertEquals(false, currentState.isLoading)
     }
-
 }

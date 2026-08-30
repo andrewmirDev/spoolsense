@@ -32,25 +32,14 @@ fun AppAndroidPreview() {
     App()
 }
 
-class MainApplication: Application(){
+class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        initKoin{
+        initKoin {
             androidContext(this@MainApplication)
         }
-        
-        // Initialize mock data after Koin is ready
-        println("📦 [MAIN] Application.onCreate() - initializing mock data...")
-        try {
-            val repository = KoinJavaComponent.get<SpoolRepository>(SpoolRepository::class.java)
-            val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-            MockDataInitializer.initializeIfEmpty(repository, scope)
-            println("📦 [MAIN] Mock data initialization triggered")
-            Thread.sleep(1000)
-            println("📦 [MAIN] Mock data initialization wait complete")
-        } catch (e: Exception) {
-            println("❌ [MAIN] Error initializing mock data: ${e.message}")
-            e.printStackTrace()
-        }
+
+        val repository = KoinJavaComponent.get<SpoolRepository>(SpoolRepository::class.java)
+        MockDataInitializer.initializeIfEmpty(repository, CoroutineScope(SupervisorJob() + Dispatchers.IO))
     }
 }

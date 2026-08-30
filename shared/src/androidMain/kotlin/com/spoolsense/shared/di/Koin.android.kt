@@ -4,6 +4,8 @@ import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import android.content.Context
 import android.content.SharedPreferences
+import com.spoolsense.shared.data.prefs.AndroidSettingsStorage
+import com.spoolsense.shared.data.prefs.SettingsStorage
 import com.spoolsense.shared.database.SpoolDatabase
 import org.koin.dsl.module
 
@@ -18,13 +20,8 @@ actual val platformModule = module {
         
         val savedVersion = prefs.getInt(DB_VERSION_KEY, 0)
         
-        // If DB version changed, delete old database and recreate
         if (savedVersion < CURRENT_DB_VERSION) {
-            try {
-                context.deleteDatabase(dbName)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            context.deleteDatabase(dbName)
             prefs.edit().putInt(DB_VERSION_KEY, CURRENT_DB_VERSION).apply()
         }
         
@@ -34,4 +31,5 @@ actual val platformModule = module {
             name = dbName
         )
     }
+    single<SettingsStorage> { AndroidSettingsStorage(get()) }
 }
